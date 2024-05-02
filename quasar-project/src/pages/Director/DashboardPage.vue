@@ -137,7 +137,7 @@ export default defineComponent({
   mounted() {
     this.fetchTotal();
     this.fetchDay();
-    this.fetchRoom();
+    // this.fetchRoom();
     this.fetchRoomDay();
     this.fetchTotalRoom();
     this.fetchTotalRoles();
@@ -152,7 +152,7 @@ export default defineComponent({
       console.log(img);
       try {
         const response = await axios.get(
-          `https://iot-smart-alcohol-system-backend-project.onrender.com/api/dashboard/total`,
+          `https://deploy-api-psi.vercel.app/api/dashboard/total`,
           {
             headers: {
               "x-access-token": token,
@@ -182,7 +182,7 @@ export default defineComponent({
 
       try{
         const response = await axios.get(
-          `https://iot-smart-alcohol-system-backend-project.onrender.com/api/dashboard/totalChange`,
+          `https://deploy-api-psi.vercel.app/api/dashboard/totalChange`,
           {
             headers:{
               "x-access-token":token,
@@ -200,7 +200,7 @@ export default defineComponent({
 
       try {
         const response = await axios.get(
-          `https://iot-smart-alcohol-system-backend-project.onrender.com/api/dashboard/day`,
+          `https://deploy-api-psi.vercel.app/api/dashboard/day`,
           {
             headers: {
               "x-access-token": token,
@@ -214,27 +214,27 @@ export default defineComponent({
       }
     },
 
-    async fetchRoom(){
-      const token = localStorage.getItem("accessToken");
-      try{
-        const response = await axios.get(
-          `https://iot-smart-alcohol-system-backend-project.onrender.com/api/dashboard/zone`,
-          {
-            headers: {
-              "x-access-token": token,
-            }
-          }
-        );
-        this.room =response.data;
-      }catch(error){
-        console.error("Error fetching day data:", error);
-      }
-    },
+    // async fetchRoom(){
+    //   const token = localStorage.getItem("accessToken");z
+    //   try{
+    //     const response = await axios.get(
+    //       `http://localhost:3000/api/dashboard/zone`,
+    //       {
+    //         headers: {
+    //           "x-access-token": token,
+    //         }
+    //       }
+    //     );
+    //     this.room =response.data;
+    //   }catch(error){
+    //     console.error("Error fetching day data:", error);
+    //   }
+    // },
     async fetchRoomDay(){
       const token = localStorage.getItem("accessToken");
       try{
         const response = await axios.get(
-          `https://iot-smart-alcohol-system-backend-project.onrender.com/api/dashboard/day_zone`,
+          `https://deploy-api-psi.vercel.app/api/dashboard/day_zone`,
           {
             headers: {
               "x-access-token": token,
@@ -250,7 +250,7 @@ export default defineComponent({
       const token = localStorage.getItem("accessToken");
       try{
         const response = await axios.get(
-          `https://iot-smart-alcohol-system-backend-project.onrender.com/api/dashboard/total_room`,
+          `https://deploy-api-psi.vercel.app/api/dashboard/total_room`,
           {
             headers:{
               "x-access-token": token,
@@ -267,7 +267,7 @@ export default defineComponent({
       const token = localStorage.getItem("accessToken");
       try{
         const response = await axios.get(
-          `https://iot-smart-alcohol-system-backend-project.onrender.com/api/dashboard/totalRoles`,
+          `https://deploy-api-psi.vercel.app/api/dashboard/totalRoles`,
           {
             headers:{
               "x-access-token": token,
@@ -284,7 +284,7 @@ export default defineComponent({
       const token = localStorage.getItem("accessToken");
       try{
         const response = await axios.get(
-          `https://iot-smart-alcohol-system-backend-project.onrender.com/api/dashboard/getTotalUser`,
+          `https://deploy-api-psi.vercel.app/api/dashboard/getTotalUser`,
           {
             headers:{
               "x-access-token": token,
@@ -301,7 +301,7 @@ export default defineComponent({
         const token = localStorage.getItem("accessToken");
       try {
         this.loading = true;
-        const response = await axios.get(`https://iot-smart-alcohol-system-backend-project.onrender.com/api/alcohol/`, {
+        const response = await axios.get(`https://deploy-api-psi.vercel.app/api/alcohol/`, {
           headers: {
             "x-access-token": token,
           },

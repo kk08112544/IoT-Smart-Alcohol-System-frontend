@@ -20,22 +20,22 @@
             <!-- <div v-if="uploadFile">
                 <q-img :src="getObjectUrl(uploadFile)" style="max-width: 200px;" />
               </div> -->
-              <div>
+              <div  class="input-field">
                 <q-input v-model="name" type="text" label="Name" lazy-rules />
               </div>
-              <div>
+              <div  class="input-field">
                 <q-input v-model="lastname" type="text" label="Lastname" lazy-rules />
               </div>
-              <div>
+              <div  class="input-field">
                 <q-input v-model="username" type="text" label="Username" lazy-rules :rules="usernameRules" />
               </div>
-              <div>
+              <div  class="input-field">
                 <q-input v-model="password" :type="isPwd ? 'password' : 'text'" label="Password" />
               </div>
-              <div>
+              <div  class="input-field">
                 <q-input v-model="cpassword" type="password" label="Confirm Password" />
               </div>
-              <div>
+              <div  class="input-field">
                 <q-select v-model="role" :options="options" label="Role" option-label="label" />
               </div>
               <div>
@@ -101,7 +101,7 @@ export default defineComponent({
     },
     async onSubmit() {
   try {
-    if(!this.name || !this.lastname || !this.username || !this.password || !this.cpassword || !this.role || !this.img){
+    if(!this.name || !this.lastname || !this.username || !this.password || !this.cpassword || !this.role || !this.uploadFile){
       this.$q.notify({
         color: 'red-4',
         textColor: 'white',
@@ -110,7 +110,7 @@ export default defineComponent({
       });
     }
     // Check if username exists
-    const response = await axios.get(`https://iot-smart-alcohol-system-backend-project.onrender.com/api/auth/${this.username}`);
+    const response = await axios.get(`https://deploy-api-psi.vercel.app/api/auth/${this.username}`);
     const db_username = response.data.record ? response.data.record.username : null;
 
     if (this.username === db_username) {
@@ -127,7 +127,7 @@ export default defineComponent({
     fileFormData.append('singlefile', this.uploadFile);
     // Upload file if provided
     if (this.uploadFile != null) {
-      const fileUploadResponse = await axios.post('https://iot-smart-alcohol-system-backend-project.onrender.com/api/file/upload', fileFormData);
+      const fileUploadResponse = await axios.post('https://deploy-api-psi.vercel.app/api/file/upload', fileFormData);
       console.log(fileUploadResponse.data.uploadFileName);
       img = fileUploadResponse.data.uploadFileName;
       // localStorage.setItem('img', img);
@@ -135,7 +135,7 @@ export default defineComponent({
 
     // Create user
     const role_id = this.role.value;
-    const sendResponse = await axios.post('https://iot-smart-alcohol-system-backend-project.onrender.com/api/auth/signup', {
+    const sendResponse = await axios.post('https://deploy-api-psi.vercel.app/api/auth/signup', {
       name: this.name,
       lastname: this.lastname,
       username: this.username,
@@ -201,7 +201,7 @@ export default defineComponent({
     },
 
     fetchRoles() {
-      axios.get('https://iot-smart-alcohol-system-backend-project.onrender.com/api/role')
+      axios.get('https://deploy-api-psi.vercel.app/api/role')
         .then(response => {
           this.options = response.data.map(role => ({
             label: role.role_name,
@@ -215,3 +215,9 @@ export default defineComponent({
   },
 });
 </script>
+<style scoped>
+  /* Add margin or padding to input fields */
+  .input-field {
+    margin-bottom: 20px; /* Adjust as needed */
+  }
+</style>

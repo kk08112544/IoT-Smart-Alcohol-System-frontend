@@ -39,35 +39,28 @@
     <div @click="toggleNotifications" style="position: relative; flex-grow: 1;">
     <div class="row justify-content-end"> 
       <div class="col"> 
-        
-        <div v-if="totals && totals.length > 0">
-  <template v-for="(total, index) in totals">
-    <span v-if="total.total !== 0" :key="index" style="color: red;">
-     &nbsp;&nbsp; {{ total.total }}
-    </span>
-  </template>
-</div>
-      </div>
-    </div>
-  </div>
-  <q-icon
+        <div @click="toggleNotifications" style="position: relative;">
+          <span v-if="notifications.length > 0" style="color: red">
+            &nbsp;&nbsp; {{ notifications.length }}
+          </span>
+        </div>
+        <q-icon
       name="notifications"
       style="font-size: 30px; width: 15px; height: 20px;"
       color="black"
       class="q-mr-md"
       @click="insertDataToDatabase"
     />
-    
+      </div>
+    </div>
+  </div>
   </div> 
  
   
-
-
-<q-menu ref="notificationsMenu" style="position: absolute; top: 100%; left: 0; width: 350px; height: 500px;">
+  <!-- v-if="totals && totals.length > 0 && totals[0].total !== 0" -->
+  <q-menu ref="notificationsMenu" style="position: absolute; top: 100%; left: 0; width: 350px; height: 500px;">
   <q-list>
     <q-item v-for="notification in sortedNotifications" :key="notification.id">
-     
-    
       <div class="horizontal-line" v-if="index !== sortedNotifications.length - 1">
       <q-item-section v-if="notification.detect === 0">
         <div style="display: none;">{{ notification.id }}</div>
@@ -122,12 +115,42 @@
         
       </q-toolbar>
       <q-toolbar class="bg-primary text-white">
-        <q-btn @click="handleDashboard" to="/director/dashboard" style="color: white" no-caps label="Dashboard" class="q-mr-md" />
-        <q-btn @click="handleManagement" to="/director/role" style="color: white" no-caps label="Role" class="q-mr-md" />
-        <q-btn @click="handleAlcohol" to="/director/RoomAlcohol" style="color: white" no-caps label="Alcohol" class="q-mr-md" />
-        <q-btn @click="handleUser" to="/director/user" style="color: white" no-caps label="ListUser" class="q-mr-md" />
-        <q-btn @click="handleProfile" to="/director/profile" style="color: white" no-caps label="Profile" class="q-mr-md" />
-      </q-toolbar>
+    <q-item clickable @click="handleDashboard" to="/director/dashboard">
+        <q-item-section>
+            <q-item-label style="color: white" class="q-mr-md" no-caps>
+                Dashboard
+            </q-item-label>
+        </q-item-section>
+    </q-item>
+    <q-item clickable @click="handleManagement" to="/director/role">
+        <q-item-section>
+            <q-item-label style="color: white" class="q-mr-md" no-caps>
+                Role
+            </q-item-label>
+        </q-item-section>
+    </q-item>
+    <q-item clickable @click="handleAlcohol" to="/director/RoomAlcohol">
+        <q-item-section>
+            <q-item-label style="color: white" class="q-mr-md" no-caps>
+                Alcohol
+            </q-item-label>
+        </q-item-section>
+    </q-item>
+    <q-item clickable @click="handleUser" to="/director/user">
+        <q-item-section>
+            <q-item-label style="color: white" class="q-mr-md" no-caps>
+                ListUser
+            </q-item-label>
+        </q-item-section>
+    </q-item>
+    <q-item clickable @click="handleProfile" to="/director/profile">
+        <q-item-section>
+            <q-item-label style="color: white" class="q-mr-md" no-caps>
+                Profile
+            </q-item-label>
+        </q-item-section>
+    </q-item>
+</q-toolbar>
     </q-header>
 
     <q-page-container>
@@ -147,16 +170,16 @@ export default {
     const name = ref('');
     const lastname = ref('');
     const img = ref('');
-    const notifications = ref([]);
     const profile = ref(null);
     const totals = ref([]);
     const reads = ref([]);
-
+    const notifications = ref([]);
+  
     const getHistoryUserIdLook = async () => {
       const token = localStorage.getItem('accessToken');
       const userId = localStorage.getItem('userId');
       try{
-        const response = await axios.get(`https://iot-smart-alcohol-system-backend-project.onrender.com/api/HistoryUserId/look/${userId}`, {
+        const response = await axios.get(`https://deploy-api-psi.vercel.app/api/HistoryUserId/look/${userId}`, {
           headers: {
             "x-access-token": token,
           }
@@ -171,7 +194,7 @@ export default {
       const token = localStorage.getItem('accessToken');
       const userId = localStorage.getItem('userId');
       try {
-        const response = await axios.get(`https://iot-smart-alcohol-system-backend-project.onrender.com/api/HistoryUserId/${userId}`, {
+        const response = await axios.get(`https://deploy-api-psi.vercel.app/api/HistoryUserId/${userId}`, {
           headers: {
             "x-access-token": token,
           }
@@ -187,7 +210,7 @@ export default {
       const token = localStorage.getItem('accessToken');
       const userId = localStorage.getItem('userId');
       try {
-        const response = await axios.get(`https://iot-smart-alcohol-system-backend-project.onrender.com/api/HistoryUserId/total/${userId}`, {
+        const response = await axios.get(`https://deploy-api-psi.vercel.app/api/HistoryUserId/total/${userId}`, {
           headers: {
             "x-access-token": token,
           }
@@ -203,7 +226,7 @@ export default {
       const token = localStorage.getItem('accessToken');
       const userId = localStorage.getItem('userId');
       try {
-        const response = await axios.get(`https://iot-smart-alcohol-system-backend-project.onrender.com/api/auth/profile/${userId}`, {
+        const response = await axios.get(`https://deploy-api-psi.vercel.app/api/auth/profile/${userId}`, {
           headers: {
             "x-access-token": token,
           }
@@ -214,9 +237,12 @@ export default {
         console.log(error);
       }
     }
+    const handleNotificationClick = (notification) => {
+      console.log(notification); // Log the selected notification data
+    };
 
     const getImageUrl = (img) => {
-      return `https://iot-smart-alcohol-system-backend-project.onrender.com/api/file/${img}`;
+      return `https://deploy-api-psi.vercel.app/api/file/${img}`;
     };
 
     name.value = localStorage.getItem('name') || '';
@@ -229,15 +255,26 @@ export default {
       localStorage.removeItem('accessToken');
     };
 
-    const toggleNotifications = () => {
-      if (notificationsMenu.value) notificationsMenu.value.$refs.notificationsMenu.toggle();
-    };
+    const toggleNotifications = async () => {
+  // Reset the notifications length to 0
+  notifications.value = [];
 
-    const fetchUserData = () => {
-      fetchUserId();
+  // Insert all notifications into the database
+  await insertDataToDatabase();
+};
+
+    // const fetchUserData = () => {
+    //   fetchUserId();
+    // };
+    const fetchUserData = async () => {
+      await fetchUserId();
+      await fetchNotifications();
+      await fetchTotalNotifications();
+      await getHistoryUserIdLook();
     };
 
     const notificationsMenu = ref(null);
+    
 
     onMounted(() => {
       fetchNotifications();
@@ -259,41 +296,40 @@ export default {
       profile,
       fetchTotalNotifications,
       getHistoryUserIdLook,
+      handleNotificationClick,
       reads,
+      
     };
   },
   methods: {
     async insertDataToDatabase() {
-  const token = localStorage.getItem('accessToken');
-  const userId = localStorage.getItem('userId');
-  try {
-    for (const notification of this.notifications) {
-      const data = {
-        his_id: notification.id,
-        alcohol_id: notification.alcohol_id,
-        room: notification.room,
-        dates: notification.dates,
-        times: notification.times,
-        detect: notification.detect,
-        user_id: userId, // Fix variable name
-      };
+    const token = localStorage.getItem('accessToken');
+    const userId = localStorage.getItem('userId');
 
-      // Make HTTP POST request to the API endpoint
-      const response = await axios.post('https://iot-smart-alcohol-system-backend-project.onrender.com/api/HistoryUserId/createHistory', data, {
-        headers: {
-          "x-access-token": token,
-        }
-      });
-      console.log(response.data);
+    try {
+       
+
+        // Adjust property names based on the actual API response structure
+        const data = {
+          user_id: userId
+        };
+
+        const sendResponse = await axios.post('https://deploy-api-psi.vercel.app/api/HistoryUserId/createHistory', data, {
+            headers: {
+                "x-access-token": token,
+            }
+        });
+
+        console.log(sendResponse.data);
+
+        // If insertion is successful, clear the notifications list
+        // notifications.value = [];
+
+    } catch (error) {
+        console.error('Error inserting data:', error);
     }
-
-    // If insertion is successful, clear the notifications list
-    this.notifications = [];
-  } catch (error) {
-    console.error('Error inserting data:', error);
-    // Handle error as needed
-  }
 }
+   
 
   },
   computed: {

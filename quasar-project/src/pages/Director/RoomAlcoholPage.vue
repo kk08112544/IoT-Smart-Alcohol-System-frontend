@@ -77,7 +77,6 @@
 
   @keydown.enter="updateStatus(props.row.id, props.row.edit)"
 />
-
       </q-td>
             <q-td key="action" :props="props">
               <q-btn
@@ -136,7 +135,7 @@
         <q-card>
           <q-card-section class="row items-center">
             <q-avatar icon="delete" color="primary" text-color="white" />
-            <span class="q-ml-sm">Delete Equipment ID: {{ input.id }}</span>
+            <span class="q-ml-sm">Delete Room ID: {{ input.id }}</span>
             <q-btn icon="close" flat round dense v-close-popup />
           </q-card-section>
           <q-card-actions align="right">
@@ -267,7 +266,7 @@ export default defineComponent({
     const token = localStorage.getItem("accessToken");
     try {
       this.loading = true;
-      const response = await axios.get(`https://iot-smart-alcohol-system-backend-project.onrender.com/api/alcohol/`, {
+      const response = await axios.get(`https://deploy-api-psi.vercel.app/api/alcohol/`, {
         headers: {
           "x-access-token": token,
         },
@@ -304,7 +303,7 @@ export default defineComponent({
             });
           } else {
             const response = await axios.post(
-              `https://iot-smart-alcohol-system-backend-project.onrender.com/api/alcohol/addToAlcohol`,
+              `https://deploy-api-psi.vercel.app/api/alcohol/addToAlcohol`,
               { room: this.room },
               {
                 headers: {
@@ -352,7 +351,7 @@ async updateStatus(id, newStatus) {
       });
     } else {
       const response = await axios.put(
-        `https://iot-smart-alcohol-system-backend-project.onrender.com/api/alcohol/updateStatusToAlcohol/${id}`,
+        `https://deploy-api-psi.vercel.app/api/alcohol/updateStatusToAlcohol/${id}`,
         { status_id: newStatus },
         {
           headers: {
@@ -407,7 +406,7 @@ async updateStatus(id, newStatus) {
             });
           } else {
             const response = await this.$axios.put(
-              `https://iot-smart-alcohol-system-backend-project.onrender.com/api/alcohol/updateToAlcohol/${input.id}`,
+              `https://deploy-api-psi.vercel.app/api/alcohol/updateToAlcohol/${input.id}`,
               { room: input.inputRoom },
               {
                 headers: {
@@ -444,7 +443,7 @@ async updateStatus(id, newStatus) {
       const token = localStorage.getItem("accessToken");
       try {
         const response = await axios.delete(
-          `https://iot-smart-alcohol-system-backend-project.onrender.com/api/alcohol/deleteToAlcohol/${this.input.id}`,
+          `https://deploy-api-psi.vercel.app/api/alcohol/deleteToAlcohol/${this.input.id}`,
           {
             headers: {
               "x-access-token": token,
